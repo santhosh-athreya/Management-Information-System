@@ -57,22 +57,16 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
+		<!-- https://mvnrepository.com/artifact/org.springframework.hateoas/spring-hateoas -->
+<dependency>
+    <groupId>org.springframework.hateoas</groupId>
+    <artifactId>spring-hateoas</artifactId>
+</dependency>
+				
 <dependency>
     <groupId>io.jsonwebtoken</groupId>
     <artifactId>jjwt</artifactId>
     <version>0.9.1</version>
-</dependency>
-		
+</dependency>	
 	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
-
 </project>

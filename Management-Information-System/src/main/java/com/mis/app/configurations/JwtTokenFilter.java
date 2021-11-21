@@ -20,7 +20,11 @@ import com.mis.app.services.MIS_JWTService;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 
-
+/**
+ * This Filter Class 
+ * @author Athreya
+ *
+ */
 public class JwtTokenFilter extends OncePerRequestFilter {
 
 	 @Autowired

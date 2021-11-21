@@ -55,12 +55,13 @@ public class JwtServiceImpl implements MIS_JWTService {
 		
 		logger.info("INSIDE CREATE TOKEN METHOD..");
 		
-		String authorities = auth.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","));
+		/*
+		 * String authorities = auth.getAuthorities().stream()
+		 * .map(GrantedAuthority::getAuthority) .collect(Collectors.joining(","));
+		 */
 		
 		Claims claims = Jwts.claims().setSubject(user.getUserName());
-	        claims.put("auth", authorities);
+	        claims.put("auth", user.getRole().getRole());
             claims.put("UserId", user.getID()); 
 	        
 	        Date now = new Date();
@@ -81,18 +82,20 @@ public class JwtServiceImpl implements MIS_JWTService {
 		
 		UserDetails user = repo.loadUserByUsername(getUsername(token));
 		
-		final Jws<Claims> claimsJws = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
-		
-		final Claims claims = claimsJws.getBody();
-		
-		final Collection<? extends GrantedAuthority> authorities =
-                Arrays.stream(claims.get("auth").toString().split(","))
-                        .map(SimpleGrantedAuthority::new)
-                        .collect(Collectors.toList());
+		/*
+		 * final Jws<Claims> claimsJws =
+		 * Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+		 * 
+		 * final Claims claims = claimsJws.getBody();
+		 * 
+		 * final Collection<? extends GrantedAuthority> authorities =
+		 * Arrays.stream(claims.get("auth").toString().split(","))
+		 * .map(SimpleGrantedAuthority::new) .collect(Collectors.toList());
+		 */
 		
 		logger.info("USERDETAILS.." + user.getAuthorities().toString());
 		
-		return new UsernamePasswordAuthenticationToken(user,authorities);
+		return new UsernamePasswordAuthenticationToken(user,null,user.getAuthorities());
 	}
 
 	@Override

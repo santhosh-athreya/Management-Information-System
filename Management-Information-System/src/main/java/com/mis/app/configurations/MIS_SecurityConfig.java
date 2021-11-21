@@ -23,6 +23,22 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.mis.app.services.MIS_JWTService;
 
 
+/**
+ * This Configuration class is main Security Gateway to Authenticate and Authorize our users. 
+ * <br><br>
+ * {@code configure(AuthenticationManagerBuilder auth)} - Configures AuthenticationManager to validate our user based on UserDetailsService. 
+ * <br><br>
+ * {@code configure(HttpSecurity http)} - Configures Http endpoints URIs and also authenticates any Request passing through this gateway. 
+ * 
+ * <br><br>
+ * <b>This class is also annotated with EnableGlobalMethodSecuirty(prePostEnabled = true) - this caters the application to have method level authorization(Role based - Authority based).</b>
+ * <br><br>
+ * @author Santhosh Athreya
+ * <br><br>
+ * {@link https://www.linkedin.com/in/santhosh-athreya-b-3b7393165/}
+ *
+ */
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -51,8 +67,8 @@ public class MIS_SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 	 http.cors().and().csrf().disable()
 	                          .authorizeRequests()
-                                                      .antMatchers("/signUp").permitAll()
-                                                      .antMatchers("/login").permitAll()
+                                                      .antMatchers("/accounts/signup").permitAll()
+                                                      .antMatchers("/accounts/signin").permitAll()
                                                       .anyRequest().authenticated()
                                                       .and()
                                                       .exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint).and()
