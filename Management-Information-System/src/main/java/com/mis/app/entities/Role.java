@@ -10,17 +10,17 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-@Table(name="role")
+@Table(name = "role")
 @Entity
 public class Role {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-    
-	@Column(name="role_type")
+
+	@Column(name = "role_type")
 	private String roleType;
-	
+
 	public Role() {
 		// TODO Auto-generated constructor stub
 	}
@@ -37,16 +37,13 @@ public class Role {
 	public String getRole() {
 		return roleType;
 	}
-	
+
 	@OneToMany(mappedBy = "role")
 	private List<User> users;
-
 
 	@Override
 	public String toString() {
 		return "Role [id=" + id + ", Role=" + roleType + "]";
 	}
-	
-	
-	
+
 }

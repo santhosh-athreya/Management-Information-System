@@ -21,43 +21,31 @@ import com.mis.app.repositories.SignupLoginRepo;
 public class MyUserDetailsService implements UserDetailsService {
 
 	Logger logger = LoggerFactory.getLogger(MyUserDetailsService.class);
-	
-	
-	
+
 	@Autowired
 	private SignupLoginRepo repo;
-	
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		
+
 		logger.info("_____________INSIDE loadUserByUsername___________");
-		
+
 		final User user = repo.findByUserName(username);
-		
-		if(user == null)
-		{
+
+		if (user == null) {
 			throw new UsernameNotFoundException("User '" + username + "' not found");
 		}
-		
-		return org.springframework.security.core.userdetails.User
-				.withUsername(username)
-				.password(user.getPassword())
-				.authorities(getAuthority(user))
-				.accountLocked(false)
-                .credentialsExpired(false)
-                .disabled(false)
-                .build();
+
+		return org.springframework.security.core.userdetails.User.withUsername(username).password(user.getPassword())
+				.authorities(getAuthority(user)).accountLocked(false).credentialsExpired(false).disabled(false).build();
 	}
-	
-	private Collection<? extends GrantedAuthority> getAuthority(User user) 
-	{
-		
-		 logger.info("___________INSIDE getAuthority____________");
-		
-		 String role = "ROLE_" + user.getRole().getRole();
-		 return Arrays.stream(role.split(","))
-         .map(SimpleGrantedAuthority::new)
-         .collect(Collectors.toList());
+
+	private Collection<? extends GrantedAuthority> getAuthority(User user) {
+
+		logger.info("___________INSIDE getAuthority____________");
+
+		String role = "ROLE_" + user.getRole().getRole();
+		return Arrays.stream(role.split(",")).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
 	}
 
 }

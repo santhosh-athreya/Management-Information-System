@@ -21,70 +21,67 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 
 /**
- * This Filter Class 
+ * This Filter Class
+ * 
  * @author Athreya
  *
  */
 public class JwtTokenFilter extends OncePerRequestFilter {
 
-	 @Autowired
-	 private MIS_JWTService jwtTokenProviderService;
+	@Autowired
+	private MIS_JWTService jwtTokenProviderService;
 
-	 
-	 public JwtTokenFilter() {
+	public JwtTokenFilter() {
 		// TODO Auto-generated constructor stub
 	}
 
-	    
-	 public JwtTokenFilter(MIS_JWTService jwtTokenProviderService ) {
-		
-		 this.jwtTokenProviderService = new JwtServiceImpl();
-		 
+	public JwtTokenFilter(MIS_JWTService jwtTokenProviderService) {
+
+		this.jwtTokenProviderService = new JwtServiceImpl();
+
+	}
+
+	@Override
+	protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
+			FilterChain filterChain) throws ServletException, IOException {
+
+		// Step 1: Get Username.
+
+		String username = null;
+
+		String authToken = null;
+
+		try {
+
+			authToken = jwtTokenProviderService.parseToken(httpServletRequest);
+			username = jwtTokenProviderService.getUsername(authToken);
 		}
 
+		catch (IllegalArgumentException e) {
 
-	    @Override
-	    protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
-	        
-	    	//Step 1: Get Username.
-	    	
-	    	String username = null;
-	    	
-	    	String authToken = null;
-	    	
-	    	try {
-	    		
-	    	  authToken = jwtTokenProviderService.parseToken(httpServletRequest);   		
-	    	  username = jwtTokenProviderService.getUsername(authToken);
-	    	}
-	    	
-	      catch (IllegalArgumentException e) {
-	    	
-            logger.error("An error occurred while fetching Username from Token", e);
-        
-	      } catch (ExpiredJwtException e) {
-            logger.warn("The token has expired", e);
-          } catch(SignatureException e){
-            logger.error("Authentication Failed. Username or Password not valid.");
-          }
-     	
-	    	
-	    	  if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+			logger.error("An error occurred while fetching Username from Token", e);
 
-	             
-	    		  
-	              try {
-					if (jwtTokenProviderService.validateToken(authToken)) {
-					      UsernamePasswordAuthenticationToken authentication = jwtTokenProviderService.validateUserAndGetAuthentication(authToken);
-					      authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
-					      logger.info("authenticated user " + username + ", setting security context");
-					      SecurityContextHolder.getContext().setAuthentication(authentication);
-					  }
-				} catch (MyCustomException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+		} catch (ExpiredJwtException e) {
+			logger.warn("The token has expired", e);
+		} catch (SignatureException e) {
+			logger.error("Authentication Failed. Username or Password not valid.");
+		}
+
+		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+
+			try {
+				if (jwtTokenProviderService.validateToken(authToken)) {
+					UsernamePasswordAuthenticationToken authentication = jwtTokenProviderService
+							.validateUserAndGetAuthentication(authToken);
+					authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
+					logger.info("authenticated user " + username + ", setting security context");
+					SecurityContextHolder.getContext().setAuthentication(authentication);
 				}
-	          }
-	        filterChain.doFilter(httpServletRequest, httpServletResponse);
-	    }
+			} catch (MyCustomException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		filterChain.doFilter(httpServletRequest, httpServletResponse);
+	}
 }

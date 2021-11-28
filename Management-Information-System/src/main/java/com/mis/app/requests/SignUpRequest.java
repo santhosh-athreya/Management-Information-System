@@ -1,22 +1,21 @@
 package com.mis.app.requests;
 
-import java.awt.image.BufferedImage;
 import java.sql.Blob;
 
 public class SignUpRequest {
 
 	
-	private String CompanyName;
+	private String companyName;
 	
-	private String CompanySize;
+	private String companySize;
 	
-	private String IndustryType;
+	private String industryType;
 	
-	private String UserName; 
+	private String userName; 
 	
-	private String Password;
+	private String password;
 	
-	private Blob CompanyLogo;
+	private Blob companyLogo;
 	
 	
 	public SignUpRequest() {
@@ -27,81 +26,84 @@ public class SignUpRequest {
 	public SignUpRequest(String companyName, String companySize, String industryType, String userName, String password,
 			Blob companyLogo) {
 		super();
-		CompanyName = companyName;
-		CompanySize = companySize;
-		IndustryType = industryType;
-		UserName = userName;
-		Password = password;
-		CompanyLogo = companyLogo;
+		this.companyName = companyName;
+		this.companySize= companySize;
+		this.industryType = industryType;
+		this.userName = userName;
+		this.password = password;
+		this.companyLogo = companyLogo;
 	}
 
 
 	public String getCompanyName() {
-		return CompanyName;
+		return companyName;
 	}
 
 
 	public void setCompanyName(String companyName) {
-		CompanyName = companyName;
+		this.companyName = companyName;
 	}
 
 
 	public String getCompanySize() {
-		return CompanySize;
+		return companyName;
 	}
 
 
 	public void setCompanySize(String companySize) {
-		CompanySize = companySize;
+		companyName = companySize;
 	}
 
 
 	public String getIndustryType() {
-		return IndustryType;
+		return industryType;
 	}
 
 
 	public void setIndustryType(String industryType) {
-		IndustryType = industryType;
+		this.industryType = industryType;
 	}
 
 
 	public String getUserName() {
-		return UserName;
+		return userName;
 	}
 
 
 	public void setUserName(String userName) {
-		UserName = userName;
+		this.userName = userName;
 	}
 
 
 	public String getPassword() {
-		return Password;
+		return password;
 	}
 
 
 	public void setPassword(String password) {
-		Password = password;
+		this.password = password;
 	}
 
 
 	public Blob getCompanyLogo() {
-		return CompanyLogo;
+		return companyLogo;
 	}
 
 
 	public void setCompanyLogo(Blob companyLogo) {
-		CompanyLogo = companyLogo;
+		this.companyLogo = companyLogo;
 	}
 
 
 	@Override
 	public String toString() {
-		return "SignUpRequest [CompanyName=" + CompanyName + ", CompanySize=" + CompanySize + ", IndustryType="
-				+ IndustryType + ", UserName=" + UserName + ", Password=" + Password + ", CompanyLogo=" + CompanyLogo
+		return "SignUpRequest [companyName=" + companyName + ", companySize=" + companySize + ", industryType="
+				+ industryType + ", userName=" + userName + ", password=" + password + ", companyLogo=" + companyLogo
 				+ "]";
 	}
+
+
+	
 	 
 	
 	
